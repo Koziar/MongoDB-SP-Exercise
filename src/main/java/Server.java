@@ -20,6 +20,12 @@ public class Server {
         db = "social_net";
     }
 
+    public void loadDataToMongoDB() {
+        String query = "mongoimport --drop --db social_net --collection tweets --type csv --file" +
+                "/Users/Luke/Downloads/trainingandtestdata/training.1600000.processed.noemoticon.csv  --headerline";
+        execute(query);
+    }
+
     /**
      * 1. How many Twitter users are in our database?
      */
@@ -36,9 +42,8 @@ public class Server {
      * 2. Which Twitter users link the most to other Twitter users?
      */
     public void findUsersThatLink() {
-        // TO BE FIXED
         String query = "db.tweets.aggregate([\n" +
-                "{ $match: { Text: { $regex: /@\\S+/g}}},\n" +
+                "{ $match: { text: { $regex: /@\\S+/g } } },\n" +
                 "{ $group: { _id: '$user', count: { $sum:1 } } },\n" +
                 "{ $sort: { 'count':-1 } }," +
                 "{ $limit: 10 }\n" +
@@ -52,11 +57,12 @@ public class Server {
     public void findMostMentioned() {
         // TO BE FIXED
         String query = "db.tweets.aggregate([\n" +
-                "{ $unwind: '$mentions' },\n" +
-                "{ $group: { _id: '$user',  size: { $sum: 1 } } },\n" +
-                "{ $sort: { size: -1 } },\n" +
-                "{ $limit: 10 }" +
-                "])";
+                "         { $match: { text: new RegExp('@\\w+', 'ig') } },\n" +
+                "         { $group: { _id: '$user', tweets: { $sum: 1 } } },\n" +
+                "         { $sort: { tweets: -1 } },\n" +
+                "         { $limit: 5 },\n" +
+                "         ]," +
+                "         { allowDiskUse: true })";
         execute(query);
     }
 
