@@ -1,6 +1,7 @@
 # MongoDB-SP-Exercise
 #### The program is a small application that executed commands to the MongoDB. It has a method for importing dataset of Twitter tweets from the CSV file into database.
-####The project was done using Java language. Program calls the mongo binary and executes the javascript queries as a commands from the terminal and prints out the following results.
+
+####The project was done using Java language. Program calls the mongo binary and executes the javascript queries as commands from the terminal and prints out the following results.
 
 #### Question 1:
 How many Twitter users are in our database?
