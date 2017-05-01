@@ -44,8 +44,8 @@ public class Server {
     public void findUsersThatLink() {
         String query = "db.tweets.aggregate([\n" +
                 "{ $match: { text: { $regex: /@\\S+/g } } },\n" +
-                "{ $group: { _id: '$user', count: { $sum:1 } } },\n" +
-                "{ $sort: { 'count':-1 } }," +
+                "{ $group: { _id: '$user', count: { $sum: 1 } } },\n" +
+                "{ $sort: { 'count': -1 } }," +
                 "{ $limit: 10 }\n" +
                 "])";
         execute(query);
@@ -55,7 +55,6 @@ public class Server {
      * 3. Who are the most mentioned Twitter users?
      */
     public void findMostMentioned() {
-        // TO BE FIXED
         String query = "db.tweets.aggregate([\n" +
                 "         { $match: { text: new RegExp('@\\w+', 'ig') } },\n" +
                 "         { $group: { _id: '$user', tweets: { $sum: 1 } } },\n" +
